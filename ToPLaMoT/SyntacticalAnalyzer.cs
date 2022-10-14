@@ -4,9 +4,9 @@ namespace ToPLaMoT
 {
 	class SyntacticalAnalyzer
 	{
-		static public string Analyze(List<string> lexemes)
+		static public (bool, string) Analyze(List<string> lexemes)
 		{
-			return string.Empty;
+			return (false, string.Empty);
 		}
 	}
 }

@@ -14,15 +14,10 @@ namespace ToPLaMoT
 				return;
 			}
 
-			foreach (var lexeme in lexemes.Item1)
-			{
-				Console.Write(lexeme + " ");
-			}
-
 			var result = SyntacticalAnalyzer.Analyze(lexemes.Item1);
-			if (result is null)
+			if (result.Item1)
 			{
-				Console.WriteLine(result);
+				Console.WriteLine(result.Item2);
 				return;
 			}
 
