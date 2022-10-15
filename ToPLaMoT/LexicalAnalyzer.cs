@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 
 namespace ToPLaMoT
 {
@@ -7,43 +7,40 @@ namespace ToPLaMoT
 	{
 		static public int MAX_LEX_LEN = 8;
 
-		static public (List<string>, string) Analyze(StreamReader streamReader)
+		static public (List<Lexeme>, string) Analyze(List<string> lexemes)
 		{
-			var lexemes = new List<string>();
-			var lexemesBuffer = string.Empty;
+			var spotLexemes = new List<Lexeme>(lexemes.Count);
 
-			while (streamReader.EndOfStream == false)
+			foreach (var lexeme in lexemes)
 			{
-				var symbol = (char)streamReader.Read();
-
-				if (char.IsLetterOrDigit(symbol))
+				if (Constants.Keywords.Exists(kw => kw.Equals(lexeme)))
 				{
-					lexemesBuffer += symbol;
-
-					if (lexemesBuffer.Length > MAX_LEX_LEN)
+					spotLexemes.Add(new Lexeme(lexeme, Lexeme.LexemeTypes.KEYWORD));
+				}
+				else if (Constants.Operators.Exists(op => op.Equals(lexeme)))
+				{
+					spotLexemes.Add(new Lexeme(lexeme, Lexeme.LexemeTypes.OPERATOR));
+				}
+				else if (int.TryParse(lexeme, out _))
+				{
+					spotLexemes.Add(new Lexeme(lexeme, Lexeme.LexemeTypes.NUMBER));
+				}
+				else if (lexeme.All(char.IsLetter))
+				{
+					if (lexeme.Length > MAX_LEX_LEN)
 					{
-						return (null, $"The length of the '{lexemesBuffer}' identifier exceeds the allowed value of {MAX_LEX_LEN}.");
+						return (null, $"The length of the token '{lexeme}' equal to {lexeme.Length} exceeds the maximum allowable value equal to {MAX_LEX_LEN}.");
 					}
+
+					spotLexemes.Add(new Lexeme(lexeme, Lexeme.LexemeTypes.IDENT));
 				}
 				else
 				{
-					if (lexemesBuffer != string.Empty)
-					{
-						lexemes.Add(lexemesBuffer);
-						lexemesBuffer = string.Empty;
-					}
-
-					if (Constants.Operators.Exists(op => op.Equals(symbol.ToString())))
-					{
-						lexemes.Add(symbol.ToString());
-					}
-					else if (symbol.ToString().Contains(" \n\r\t\0"))
-					{
-						return (null, $"'{symbol}' is an invalid character.");
-					}
+					return (null, $"The token {lexeme} contains invalid characters.");
 				}
 			}
-			return (lexemes, string.Empty);
+
+			return (spotLexemes, string.Empty);
 		}
 	}
 }

@@ -7,21 +7,27 @@ namespace ToPLaMoT
 	{
 		static void Main()
 		{
-			var lexemes = LexicalAnalyzer.Analyze(new StreamReader("../../../Source.isa"));
-			if (lexemes.Item1 is null)
+			var lexemes = Recognizer.Recognize(new StreamReader("../../../Source.isa"));
+			var spotLexemes = LexicalAnalyzer.Analyze(lexemes);
+			
+			if (spotLexemes.Item1 is null)
 			{
-				Console.WriteLine(lexemes.Item2);
+				Console.WriteLine(spotLexemes.Item2);
 				return;
 			}
 
-			var result = SyntacticalAnalyzer.Analyze(lexemes.Item1);
+			foreach (var sl in spotLexemes.Item1)
+			{
+				Console.WriteLine($"{sl.token}\t: {sl.lexemeType}");
+			}
+
+			var result = SyntacticalAnalyzer.Analyze(spotLexemes.Item1);
+
 			if (result.Item1)
 			{
 				Console.WriteLine(result.Item2);
 				return;
 			}
-
-			Console.WriteLine("Successfully!");
 		}
 	}
 }
