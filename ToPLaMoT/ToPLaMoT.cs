@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 namespace ToPLaMoT
 {
@@ -8,26 +7,28 @@ namespace ToPLaMoT
 		static void Main()
 		{
 			var lexemes = Recognizer.Recognize(new StreamReader("../../../Source.isa"));
-			var spotLexemes = LexicalAnalyzer.Analyze(lexemes);
+			var (spotLexemes, lexMsg) = LexicalAnalyzer.Analyze(lexemes);
 			
-			if (spotLexemes.Item1 is null)
+			if (spotLexemes is null)
 			{
-				Console.WriteLine(spotLexemes.Item2);
+				Log4me.Error(lexMsg);
 				return;
 			}
 
-			foreach (var sl in spotLexemes.Item1)
+			foreach (var spotLexeme in spotLexemes)
 			{
-				Console.WriteLine($"{sl.token}\t: {sl.lexemeType}");
+				Log4me.Default($"{{{spotLexeme.token} : {spotLexeme.lexemeType}}}");
 			}
 
-			var result = SyntacticalAnalyzer.Analyze(spotLexemes.Item1);
+			var (result, syntMsg) = SyntacticalAnalyzer.Analyze(spotLexemes);
 
-			if (result.Item1)
+			if (result)
 			{
-				Console.WriteLine(result.Item2);
+				Log4me.Error(syntMsg);
 				return;
 			}
+
+			Log4me.Success("Successfully");
 		}
 	}
 }
