@@ -9,11 +9,6 @@ if (spotLexemes is null)
 	return;
 }
 
-foreach (var spotLexeme in spotLexemes)
-{
-	Log4me.Info($"{{{spotLexeme.token} : {spotLexeme.lexemeType}}}");
-}
-
 var (result, syntMsg) = SyntacticalAnalyzer.Analyze(spotLexemes);
 
 if (result)

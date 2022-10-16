@@ -9,7 +9,7 @@ namespace ToPLaMoT
 		static public (bool result, string syntMsg) Analyze(List<Lexeme> lexemes)
 		{
 			var inputLexemes = new Stack<string>(new[] { "e" });
-			var currentStore = new Stack<string>(new[] { "h0" });
+			var currentStore = new Stack<string>(new[] { "h0", "P" });
 			var currentState = Constants.States.S0;
 
 			ReverseList(lexemes).ForEach(lexeme => inputLexemes.Push(ConvertTockens(lexeme)));

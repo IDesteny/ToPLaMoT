@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace ToPLaMoT
 {
@@ -31,7 +32,7 @@ namespace ToPLaMoT
 					lexemes.Add(symbol.ToString());
 				}
 			}
-			return lexemes;
+			return buffer != string.Empty ? lexemes.Append(buffer).ToList() : lexemes;
 		}
 
 		public static List<string> RecognizeFromFile(string filepath)
