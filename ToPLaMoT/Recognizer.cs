@@ -33,5 +33,12 @@ namespace ToPLaMoT
 			}
 			return lexemes;
 		}
+
+		public static List<string> RecognizeFromFile(string filepath)
+		{
+			using var streamReader = new StreamReader(filepath);
+
+			return Recognize(streamReader);
+		}
 	}
 }
