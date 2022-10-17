@@ -1,6 +1,7 @@
 ﻿using ToPLaMoT;
 
 var lexemes = Recognizer.RecognizeFromFile("../../../Source.isa");
+
 var (spotLexemes, lexMsg) = LexicalAnalyzer.Analyze(lexemes);
 
 if (spotLexemes is null)

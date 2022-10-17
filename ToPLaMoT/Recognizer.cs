@@ -21,7 +21,7 @@ namespace ToPLaMoT
 					continue;
 				}
 
-				if (buffer != string.Empty)
+				if (!buffer.Equals(string.Empty))
 				{
 					lexemes.Add(buffer);
 					buffer = string.Empty;
@@ -32,11 +32,12 @@ namespace ToPLaMoT
 					lexemes.Add(symbol.ToString());
 				}
 			}
-			return buffer != string.Empty ? lexemes.Append(buffer).ToList() : lexemes;
+			return !buffer.Equals(string.Empty) ? lexemes.Append(buffer).ToList() : lexemes;
 		}
 
 		public static List<string> RecognizeFromFile(string filepath)
 		{
+			// TODO: using?
 			using var streamReader = new StreamReader(filepath);
 
 			return Recognize(streamReader);

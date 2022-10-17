@@ -7,7 +7,7 @@ namespace ToPLaMoT
 	{
 		static public int MAX_LEX_LEN = 8;
 
-		static public (List<Lexeme> spotLexemes, string lexMsg) Analyze(List<string> lexemes)
+		static public (List<Lexeme> spotLexemes, string report) Analyze(List<string> lexemes)
 		{
 			var spotLexemes = new List<Lexeme>(lexemes.Count);
 

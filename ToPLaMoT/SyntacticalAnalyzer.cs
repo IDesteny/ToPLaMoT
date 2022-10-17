@@ -8,14 +8,15 @@ namespace ToPLaMoT
 	{
 		public enum Status { SUCCESS, INPUT_TAPE_EMPTY, TRANSITION_FUNC_NOT_FOUND };
 
-		static public (Status status, string syntMsg) Analyze(List<Lexeme> lexemes)
+		static public (Status status, string report) Analyze(List<Lexeme> lexemes)
 		{
-			if (lexemes.Count == 0)
+			// TODO: Remove?
+			if (lexemes.Count.Equals(0))
 			{
 				return (Status.INPUT_TAPE_EMPTY, "Input tape is empty.");
 			}
 
-			var inputLexemes = new Stack<string>(lexemes.Select(ConvertTockens).Append("e").Reverse());
+			var inputLexemes = new Stack<string>(lexemes.Select(ConvertTokens).Append("e").Reverse());
 			var currentStore = new Stack<string>(new[] { "h0" });
 			var currentState = Constants.States.S0;
 
@@ -46,7 +47,7 @@ namespace ToPLaMoT
 			return (Status.SUCCESS, string.Empty);
 		}
 
-		static string ConvertTockens(Lexeme lexeme)
+		static string ConvertTokens(Lexeme lexeme)
 		{
 			if (lexeme.lexemeType.Equals(Lexeme.LexemeTypes.IDENT)) return "w";
 			if (lexeme.lexemeType.Equals(Lexeme.LexemeTypes.NUMBER)) return "n";
