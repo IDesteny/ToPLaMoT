@@ -18,8 +18,8 @@ namespace ToPLaMoT
 			{ (States.S0, "begin", "O1"), (States.S0, FuncTypes.RECEIVE, new() { ".", "end", "L2" }) },
 			{ (States.S0, "var", "O2"), (States.S0, FuncTypes.RECEIVE, new() { ";", "integer", ":", "L1" }) },
 			{ (States.S0, ",", "S"), (States.S0, FuncTypes.RECEIVE, new() { "L1" }) },
-			{ (States.S0, "read", "A"), (States.S0, FuncTypes.RECEIVE, new() { ";", ")", "L1", "(", ")" }) },
-			{ (States.S0, "write", "A"), (States.S0, FuncTypes.RECEIVE, new() { ";", ")", "L1", "(", ")" }) },
+			{ (States.S0, "read", "A"), (States.S0, FuncTypes.RECEIVE, new() { ";", ")", "L1", "(" }) },
+			{ (States.S0, "write", "A"), (States.S0, FuncTypes.RECEIVE, new() { ";", ")", "L1", "(" }) },
 			{ (States.S0, "for", "A"), (States.S0, FuncTypes.RECEIVE, new() { "endf", "L2", "do", "V", "to", "V", "=", "E" }) },
 			{ (States.S0, "-", "Y"), (States.S0, FuncTypes.RECEIVE, new() { }) },
 			{ (States.S0, "+", "B"), (States.S0, FuncTypes.RECEIVE, new() { }) },
@@ -92,6 +92,7 @@ namespace ToPLaMoT
 			{ (States.S0, ":", ":"), (States.S0, FuncTypes.RECEIVE, new() { }) },
 			{ (States.S0, "endf", "endf"), (States.S0, FuncTypes.RECEIVE, new() { }) },
 			{ (States.S0, "e", "h0"), (States.S1, FuncTypes.RECEIVE, new() { }) },
+			{ (States.S0, "var", "h0"), (States.S0, FuncTypes.EMPTY, new() { "h0", "P" }) },
 		};
 	}
 }

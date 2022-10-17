@@ -6,13 +6,18 @@ namespace ToPLaMoT
 {
 	class SyntacticalAnalyzer
 	{
-		static public (bool result, string syntMsg) Analyze(List<Lexeme> lexemes)
-		{
-			var inputLexemes = new Stack<string>(new[] { "e" });
-			var currentStore = new Stack<string>(new[] { "h0", "P" });
-			var currentState = Constants.States.S0;
+		public enum Status { SUCCESS, INPUT_TAPE_EMPTY, TRANSITION_FUNC_NOT_FOUND };
 
-			ReverseList(lexemes).ForEach(lexeme => inputLexemes.Push(ConvertTockens(lexeme)));
+		static public (Status status, string syntMsg) Analyze(List<Lexeme> lexemes)
+		{
+			if (lexemes.Count == 0)
+			{
+				return (Status.INPUT_TAPE_EMPTY, "Input tape is empty.");
+			}
+
+			var inputLexemes = new Stack<string>(lexemes.Select(ConvertTockens).Append("e").Reverse());
+			var currentStore = new Stack<string>(new[] { "h0" });
+			var currentState = Constants.States.S0;
 
 			try
 			{
@@ -34,28 +39,18 @@ namespace ToPLaMoT
 			}
 			catch (KeyNotFoundException)
 			{
-				return (true, $"Suitable transition function for f({currentState}, {inputLexemes.Peek()}, {currentStore.Peek()}) not found");
-			}
-			catch (InvalidOperationException)
-			{
-				return (true, $"The input tape or magazine was unexpectedly empty.\n" +
-					$"input tape: [{string.Join(", ", inputLexemes)}]\n" +
-					$"magazine: [{string.Join(", ", currentStore)}]");
+				return (Status.TRANSITION_FUNC_NOT_FOUND,
+					$"Suitable transition function for f({currentState}, {inputLexemes.Peek()}, {currentStore.Peek()}) not found.");
 			}
 
-			return (false, string.Empty);
+			return (Status.SUCCESS, string.Empty);
 		}
 
 		static string ConvertTockens(Lexeme lexeme)
 		{
-			switch (lexeme.lexemeType)
-			{
-				case Lexeme.LexemeTypes.IDENT: return "w";
-				case Lexeme.LexemeTypes.NUMBER: return "n";
-				default: return lexeme.token;
-			}
+			if (lexeme.lexemeType.Equals(Lexeme.LexemeTypes.IDENT)) return "w";
+			if (lexeme.lexemeType.Equals(Lexeme.LexemeTypes.NUMBER)) return "n";
+			return lexeme.token;
 		}
-
-		static List<T> ReverseList<T>(List<T> list) => Enumerable.Reverse(list).ToList();
 	}
 }
