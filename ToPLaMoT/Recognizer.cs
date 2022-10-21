@@ -37,7 +37,6 @@ namespace ToPLaMoT
 
 		public static List<string> RecognizeFromFile(string filepath)
 		{
-			// TODO: using?
 			using var streamReader = new StreamReader(filepath);
 
 			return Recognize(streamReader);

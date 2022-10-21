@@ -4,8 +4,11 @@ namespace ToPLaMoT
 {
 	class Constants
 	{
-		static public readonly List<string> Keywords = new() { "var", "integer", "begin", "end", "to", "for", "do", "read", "write", "endf" };
-		static public readonly List<string> Operators = new() { ";", ",", "(", ")", "+", "-", "*", "=", ":", "." };
+		static public readonly List<string> Keywords = new()
+			{ "var", "integer", "begin", "end", "to", "for", "do", "read", "write", "endf" };
+
+		static public readonly List<string> Operators = new()
+			{ ";", ",", "(", ")", "+", "-", "*", "=", ":", "." };
 
 		public enum States { S0, S1 };
 		public enum FuncTypes { EMPTY, RECEIVE };
@@ -93,6 +96,19 @@ namespace ToPLaMoT
 			{ (States.S0, "endf", "endf"), (States.S0, FuncTypes.RECEIVE, new() { }) },
 			{ (States.S0, "e", "h0"), (States.S1, FuncTypes.RECEIVE, new() { }) },
 			{ (States.S0, "var", "h0"), (States.S0, FuncTypes.EMPTY, new() { "h0", "P" }) },
+		};
+
+		static public readonly Dictionary<
+			(States initialState, string lexeme, string initialStore), string
+		> ErrorIdentification = new()
+		{
+			{ (States.S0, "begin", "L1"), "Variable list not found" },
+			{ (States.S0, "begin", "Q"), "Colon not found" },
+			{ (States.S0, "begin", "integer"), "Variable type(s) not specified" },
+			{ (States.S0, "end", "L2"), "Missing program body" },
+			{ (States.S0, "end", "Q"), "Assignment not found" },
+			{ (States.S0, "end", "V"), "No variable to assign" },
+			{ (States.S0, "end", "Z"), "Missing ';'" },
 		};
 	}
 }

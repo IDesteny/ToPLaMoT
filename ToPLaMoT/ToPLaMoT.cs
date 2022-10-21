@@ -12,15 +12,10 @@ if (spotLexemes is null)
 
 var (result, syntMsg) = SyntacticalAnalyzer.Analyze(spotLexemes);
 
-if (result != SyntacticalAnalyzer.Status.SUCCESS)
+if (result)
 {
-	if (result != SyntacticalAnalyzer.Status.INPUT_TAPE_EMPTY)
-	{
-		Log4me.Error(syntMsg);
-		return;
-	}
-
-	Log4me.Warning(syntMsg);
+	Log4me.Error(syntMsg);
+	return;
 }
 
 Log4me.Success("Successfully.");
