@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace ToPLaMoT
 {
@@ -41,11 +41,26 @@ namespace ToPLaMoT
 			return lexemes;
 		}
 
-		public static List<string> RecognizeFromFile(string filepath)
+		public static Task<List<string>> RecognizeFromFileAsync(string filepath)
 		{
-			using var streamReader = new StreamReader(filepath);
+			return Task.Run(() =>
+			{
+				using var streamReader = new StreamReader(filepath);
 
-			return Recognize(streamReader);
+				return Recognize(streamReader);
+			});
+		}
+
+		public static async Task<(List<string> lexemes, string report)> Analyze(string filepath)
+		{
+			var lexemes = await RecognizeFromFileAsync(filepath);
+
+			if (lexemes.Count.Equals(0))
+			{
+				return (null, "Missing source code.");
+			}
+
+			return (lexemes, string.Empty);
 		}
 	}
 }
