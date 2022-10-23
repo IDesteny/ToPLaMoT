@@ -1,6 +1,12 @@
-﻿using ToPLaMoT;
+﻿using System.Linq;
+using ToPLaMoT;
 
 var lexemes = Recognizer.RecognizeFromFile("../../../Source.isa");
+
+if (!lexemes.Any())
+{
+	Log4me.Warning("Missing source code.");
+}
 
 var (spotLexemes, lexMsg) = LexicalAnalyzer.Analyze(lexemes);
 

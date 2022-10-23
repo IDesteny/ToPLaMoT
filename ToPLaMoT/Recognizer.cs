@@ -32,7 +32,13 @@ namespace ToPLaMoT
 					lexemes.Add(symbol.ToString());
 				}
 			}
-			return !buffer.Equals(string.Empty) ? lexemes.Append(buffer).ToList() : lexemes;
+
+			if (!buffer.Equals(string.Empty))
+			{
+				lexemes.Add(buffer);
+			}
+
+			return lexemes;
 		}
 
 		public static List<string> RecognizeFromFile(string filepath)
