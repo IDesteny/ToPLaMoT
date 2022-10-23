@@ -32,18 +32,7 @@ namespace ToPLaMoT
 			}
 			catch
 			{
-				try
-				{
-					var currentFunc = (currentState, inputLexemes.Peek(), currentStore.Peek());
-					var ErrorMessage = Constants.ErrorIdentification[currentFunc];
-
-					return (true, $"Error: {ErrorMessage}");
-				}
-				catch
-				{
-					return (true,
-						$"Suitable transition function for f({currentState}, {inputLexemes.Peek()}, {currentStore.Peek()}) not found.");
-				}
+				return (true, $"Unexpected token '{inputLexemes.Peek()}' found.");
 			}
 
 			return (false, string.Empty);
