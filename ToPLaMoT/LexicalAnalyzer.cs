@@ -36,7 +36,7 @@ namespace ToPLaMoT
 				}
 				else
 				{
-					return (null, $"The token {lexeme} contains invalid characters.");
+					return (null, $"The token '{lexeme}' contains invalid characters.");
 				}
 			}
 

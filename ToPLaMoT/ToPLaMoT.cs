@@ -1,6 +1,6 @@
 ﻿using ToPLaMoT;
 
-var (lexemes, recMsg) = await Recognizer.Analyze("../../../Source.isa");
+var (lexemes, recMsg) = await Recognizer.Analyze(args[0]);
 
 if (lexemes is null)
 {

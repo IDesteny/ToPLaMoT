@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ToPLaMoT": {
+      "commandName": "Project",
+      "commandLineArgs": "../../../Source.isa"
+    }
+  }
+}
