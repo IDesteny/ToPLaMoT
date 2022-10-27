@@ -16,11 +16,11 @@ if (listOfLexemes is null)
 	return;
 }
 
-var (executionStatus, SyntacticalAnalyzerReportMsg) = SyntacticalAnalyzer.Analyze(listOfLexemes);
+var (executionStatus, syntacticalAnalyzerReportMsg) = SyntacticalAnalyzer.Analyze(listOfLexemes);
 
 if (executionStatus)
 {
-	Log4me.Error(SyntacticalAnalyzerReportMsg);
+	Log4me.Error(syntacticalAnalyzerReportMsg);
 	return;
 }
 

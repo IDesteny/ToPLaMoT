@@ -6,7 +6,7 @@ namespace ToPLaMoT
 {
 	class SyntacticalAnalyzer
 	{
-		static public (bool executionStatus, string SyntacticalAnalyzerReportMsg) Analyze(List<Lexeme> listOfLexemes)
+		static public (bool executionStatus, string syntacticalAnalyzerReportMsg) Analyze(List<Lexeme> listOfLexemes)
 		{
 			var inputLexemes = new Stack<string>(listOfLexemes.Select(ConvertTokens).Append("e").Reverse());
 			var currentStore = new Stack<string>(new[] { "h0" });
