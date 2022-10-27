@@ -10,12 +10,12 @@ namespace ToPLaMoT
 		static public readonly List<string> Operators = new()
 			{ ";", ",", "(", ")", "+", "-", "*", "=", ":", "." };
 
-		public enum States { S0, S1 };
-		public enum FuncTypes { EMPTY, RECEIVE };
+		public enum States : byte { S0, S1 };
+		public enum FuncTypes : byte { EMPTY, RECEIVE };
 
 		static public readonly Dictionary<
-			(States initialState, string lexeme, string initialStore),
-			(States finalState, FuncTypes funcTypes, List<string> finalStore)
+			(States initialState, string token, string store),
+			(States finalState, FuncTypes type, List<string> finalStore)
 		> ForwardFunc = new()
 		{
 			{ (States.S0, "begin", "O1"), (States.S0, FuncTypes.RECEIVE, new() { ".", "end", "L2" }) },

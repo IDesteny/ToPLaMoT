@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace ToPLaMoT
@@ -8,37 +9,37 @@ namespace ToPLaMoT
 	{
 		public static List<string> Recognize(StreamReader streamReader)
 		{
-			var lexemes = new List<string>();
-			var buffer = string.Empty;
+			var listOfTokens = new List<string>();
+			var holdingBuffer = new StringBuilder();
 
 			while (!streamReader.EndOfStream)
 			{
-				var symbol = (char)streamReader.Read();
+				var readingObject = (char)streamReader.Read();
 
-				if (char.IsLetterOrDigit(symbol))
+				if (char.IsLetterOrDigit(readingObject))
 				{
-					buffer += symbol;
+					holdingBuffer.Append(readingObject);
 					continue;
 				}
 
-				if (!buffer.Equals(string.Empty))
+				if (!holdingBuffer.Equals(string.Empty))
 				{
-					lexemes.Add(buffer);
-					buffer = string.Empty;
+					listOfTokens.Add(holdingBuffer.ToString());
+					holdingBuffer.Clear();
 				}
 
-				if (!("\n\r\t ").Contains(symbol))
+				if (!"\n\r\t ".Contains(readingObject))
 				{
-					lexemes.Add(symbol.ToString());
+					listOfTokens.Add(readingObject.ToString());
 				}
 			}
 
-			if (!buffer.Equals(string.Empty))
+			if (!holdingBuffer.Equals(string.Empty))
 			{
-				lexemes.Add(buffer);
+				listOfTokens.Add(holdingBuffer.ToString());
 			}
 
-			return lexemes;
+			return listOfTokens;
 		}
 
 		public static Task<List<string>> RecognizeFromFileAsync(string filepath)
@@ -51,16 +52,16 @@ namespace ToPLaMoT
 			});
 		}
 
-		public static async Task<(List<string> lexemes, string report)> Analyze(string filepath)
+		public static async Task<(List<string> lexemes, string report)> AnalyzeAsync(string filepath)
 		{
-			var lexemes = await RecognizeFromFileAsync(filepath);
+			var listOfTokens = await RecognizeFromFileAsync(filepath);
 
-			if (lexemes.Count.Equals(0))
+			if (listOfTokens.Count.Equals(0))
 			{
 				return (null, "Missing source code.");
 			}
 
-			return (lexemes, string.Empty);
+			return (listOfTokens, string.Empty);
 		}
 	}
 }

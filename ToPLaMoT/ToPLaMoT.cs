@@ -1,26 +1,26 @@
 ﻿using ToPLaMoT;
 
-var (lexemes, recMsg) = await Recognizer.Analyze(args[0]);
+var (listOfTokens, recognizerReportMsg) = await Recognizer.AnalyzeAsync(args[0]);
 
-if (lexemes is null)
+if (listOfTokens is null)
 {
-	Log4me.Warning(recMsg);
+	Log4me.Warning(recognizerReportMsg);
 	return;
 }
 
-var (spotLexemes, lexMsg) = LexicalAnalyzer.Analyze(lexemes);
+var (listOfLexemes, lexicalAnalyzerReportMsg) = LexicalAnalyzer.Analyze(listOfTokens);
 
-if (spotLexemes is null)
+if (listOfLexemes is null)
 {
-	Log4me.Error(lexMsg);
+	Log4me.Error(lexicalAnalyzerReportMsg);
 	return;
 }
 
-var (result, syntMsg) = SyntacticalAnalyzer.Analyze(spotLexemes);
+var (executionStatus, SyntacticalAnalyzerReportMsg) = SyntacticalAnalyzer.Analyze(listOfLexemes);
 
-if (result)
+if (executionStatus)
 {
-	Log4me.Error(syntMsg);
+	Log4me.Error(SyntacticalAnalyzerReportMsg);
 	return;
 }
 

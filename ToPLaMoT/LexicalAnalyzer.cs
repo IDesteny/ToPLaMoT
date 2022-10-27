@@ -5,42 +5,47 @@ namespace ToPLaMoT
 {
 	class LexicalAnalyzer
 	{
-		static public int MAX_LEX_LEN = 8;
+		static public uint MAXIMUM_ALLOWED_LENGTH_OF_LEXEME = 8;
 
-		static public (List<Lexeme> spotLexemes, string report) Analyze(List<string> lexemes)
+		static public (List<Lexeme> listOfLexemes, string lexicalAnalyzerReportMsg) Analyze(List<string> listOfTokens)
 		{
-			var spotLexemes = new List<Lexeme>(lexemes.Count);
+			var listOfLexemes = new List<Lexeme>(listOfTokens.Count);
 
-			foreach (var lexeme in lexemes)
+			foreach (var token in listOfTokens)
 			{
-				if (Constants.Keywords.Exists(kw => kw.Equals(lexeme)))
+				if (Constants.Keywords.Exists(kw => kw.Equals(token)))
 				{
-					spotLexemes.Add(new Lexeme(lexeme, Lexeme.LexemeTypes.KEYWORD));
+					listOfLexemes.Add(new Lexeme(token, Lexeme.LexemeTypes.KEYWORD));
+					continue;
 				}
-				else if (Constants.Operators.Exists(op => op.Equals(lexeme)))
+				
+				if (Constants.Operators.Exists(op => op.Equals(token)))
 				{
-					spotLexemes.Add(new Lexeme(lexeme, Lexeme.LexemeTypes.OPERATOR));
+					listOfLexemes.Add(new Lexeme(token, Lexeme.LexemeTypes.OPERATOR));
+					continue;
 				}
-				else if (int.TryParse(lexeme, out _))
+
+				if (int.TryParse(token, out _))
 				{
-					spotLexemes.Add(new Lexeme(lexeme, Lexeme.LexemeTypes.NUMBER));
+					listOfLexemes.Add(new Lexeme(token, Lexeme.LexemeTypes.NUMBER));
+					continue;
 				}
-				else if (lexeme.All(char.IsLetter))
+
+				if (token.All(char.IsLetter))
 				{
-					if (lexeme.Length > MAX_LEX_LEN)
+					if (token.Length > MAXIMUM_ALLOWED_LENGTH_OF_LEXEME)
 					{
-						return (null, $"The length of the token '{lexeme}' equal to {lexeme.Length} exceeds the maximum allowable value equal to {MAX_LEX_LEN}.");
+						return (null, $"The length of the token '{token}' equal to {token.Length} exceeds the maximum allowable value equal to {MAXIMUM_ALLOWED_LENGTH_OF_LEXEME}.");
 					}
 
-					spotLexemes.Add(new Lexeme(lexeme, Lexeme.LexemeTypes.IDENT));
+					listOfLexemes.Add(new Lexeme(token, Lexeme.LexemeTypes.IDENT));
+					continue;
 				}
-				else
-				{
-					return (null, $"The token '{lexeme}' contains invalid characters.");
-				}
+
+				return (null, $"The token '{token}' contains invalid characters.");
 			}
 
-			return (spotLexemes, string.Empty);
+			return (listOfLexemes, string.Empty);
 		}
 	}
 }

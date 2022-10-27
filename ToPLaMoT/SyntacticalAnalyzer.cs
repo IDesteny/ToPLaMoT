@@ -6,20 +6,20 @@ namespace ToPLaMoT
 {
 	class SyntacticalAnalyzer
 	{
-		static public (bool result, string report) Analyze(List<Lexeme> lexemes)
+		static public (bool executionStatus, string SyntacticalAnalyzerReportMsg) Analyze(List<Lexeme> listOfLexemes)
 		{
-			var inputLexemes = new Stack<string>(lexemes.Select(ConvertTokens).Append("e").Reverse());
+			var inputLexemes = new Stack<string>(listOfLexemes.Select(ConvertTokens).Append("e").Reverse());
 			var currentStore = new Stack<string>(new[] { "h0" });
-			var currentState = Constants.States.S0;
+			var initialState = Constants.States.S0;
 
 			try
 			{
-				while (!currentState.Equals(Constants.States.S1))
+				while (!initialState.Equals(Constants.States.S1))
 				{
-					var currentFunc = (currentState, inputLexemes.Peek(), currentStore.Peek());
-					var (finalState, funcTypes, finalStore) = Constants.ForwardFunc[currentFunc];
+					var currentFunc = (initialState, inputLexemes.Peek(), currentStore.Peek());
+					var (finalState, type, finalStore) = Constants.ForwardFunc[currentFunc];
 
-					if (funcTypes.Equals(Constants.FuncTypes.RECEIVE))
+					if (type.Equals(Constants.FuncTypes.RECEIVE))
 					{
 						inputLexemes.Pop();
 					}
@@ -27,7 +27,7 @@ namespace ToPLaMoT
 					currentStore.Pop();
 					finalStore.ForEach(lexeme => currentStore.Push(lexeme));
 
-					currentState = finalState;
+					initialState = finalState;
 				}
 			}
 			catch

@@ -4,30 +4,30 @@ namespace ToPLaMoT
 {
 	class Log4me
 	{
-		public enum DebugLevel { SUCCESS, INFO, WARNING, ERROR };
+		public enum DebugLevel : byte { SUCCESS, INFO, WARNING, ERROR };
 
 		static public DebugLevel DEBUG_LEVEL = DebugLevel.SUCCESS;
 
-		static void ColorOutput<T>(T msg, ConsoleColor color)
+		static void ColorMessageOutput<T>(T message, ConsoleColor consoleColor)
 		{
-			var oldColor = Console.ForegroundColor;
+			var previousColor = Console.ForegroundColor;
 
-			Console.ForegroundColor = color;
-			Console.WriteLine(msg);
-			Console.ForegroundColor = oldColor;
+			Console.ForegroundColor = consoleColor;
+			Console.WriteLine(message);
+			Console.ForegroundColor = previousColor;
 		}
 
-		static void LevelOutput<T>(T msg, DebugLevel debugLevel, ConsoleColor color)
+		static void LogBasedOnLevel<T>(T message, DebugLevel debugLevel, ConsoleColor consoleColor)
 		{
 			if (debugLevel >= DEBUG_LEVEL)
 			{
-				ColorOutput(msg, color);
+				ColorMessageOutput(message, consoleColor);
 			}
 		}
 
-		static public void Warning<T>(T msg) => LevelOutput(msg, DebugLevel.WARNING, ConsoleColor.Yellow);
-		static public void Success<T>(T msg) => LevelOutput(msg, DebugLevel.SUCCESS, ConsoleColor.Green);
-		static public void Error<T>(T msg) => LevelOutput(msg, DebugLevel.ERROR, ConsoleColor.Red);
-		static public void Info<T>(T msg) => LevelOutput(msg, DebugLevel.INFO, ConsoleColor.White);
+		static public void Warning<T>(T message) => LogBasedOnLevel(message, DebugLevel.WARNING, ConsoleColor.Yellow);
+		static public void Success<T>(T message) => LogBasedOnLevel(message, DebugLevel.SUCCESS, ConsoleColor.Green);
+		static public void Error<T>(T message) => LogBasedOnLevel(message, DebugLevel.ERROR, ConsoleColor.Red);
+		static public void Info<T>(T message) => LogBasedOnLevel(message, DebugLevel.INFO, ConsoleColor.White);
 	}
 }

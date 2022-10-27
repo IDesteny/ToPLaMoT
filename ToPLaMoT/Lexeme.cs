@@ -2,7 +2,7 @@
 {
 	class Lexeme
 	{
-		public enum LexemeTypes { KEYWORD, OPERATOR, IDENT, NUMBER }
+		public enum LexemeTypes : byte { KEYWORD, OPERATOR, IDENT, NUMBER }
 
 		public readonly LexemeTypes lexemeType;
 		public readonly string token;
