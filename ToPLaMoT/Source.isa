@@ -1,10 +1,8 @@
 ﻿var
-	i, c: integer;
-begin
-	c = -10;
-	for i = 0 to 10 do
-		c = c + i;
-	endf
+	i: integer;
 
-	write(c);
+begin
+	for i = 0 to 10 do
+		write(i);
+	endf
 end.

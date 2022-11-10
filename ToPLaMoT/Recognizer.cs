@@ -52,7 +52,7 @@ namespace ToPLaMoT
 			});
 		}
 
-		public static async Task<(List<string> lexemes, string report)> AnalyzeAsync(string filepath)
+		static public async Task<(List<string> listOfTokens, string recognizerReportMsg)> AnalyzeAsync(string filepath)
 		{
 			var listOfTokens = await RecognizeFromFileAsync(filepath);
 

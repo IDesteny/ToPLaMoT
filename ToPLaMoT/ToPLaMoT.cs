@@ -8,7 +8,7 @@ if (listOfTokens is null)
 	return;
 }
 
-var (listOfLexemes, lexicalAnalyzerReportMsg) = LexicalAnalyzer.Analyze(listOfTokens);
+var (listOfLexemes, lexicalAnalyzerReportMsg) = await LexicalAnalyzer.AnalyzeAsync(listOfTokens);
 
 if (listOfLexemes is null)
 {
@@ -16,7 +16,7 @@ if (listOfLexemes is null)
 	return;
 }
 
-var (executionStatus, syntacticalAnalyzerReportMsg) = SyntacticalAnalyzer.Analyze(listOfLexemes);
+var (executionStatus, syntacticalAnalyzerReportMsg) = await SyntacticalAnalyzer.AnalyzeAsync(listOfLexemes);
 
 if (executionStatus)
 {
@@ -24,4 +24,14 @@ if (executionStatus)
 	return;
 }
 
-Log4me.Success("Successfully.");
+var sourceCSCode = await Translator.AnalyzeAsync(listOfLexemes);
+
+var (exitCode, compilerReportMsg) = await Compiler.CompileAsync(sourceCSCode);
+
+if (exitCode != 0)
+{
+	Log4me.Error(compilerReportMsg);
+	return;
+}
+
+await Compiler.Run();

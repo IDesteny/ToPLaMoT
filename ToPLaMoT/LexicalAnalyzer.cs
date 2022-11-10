@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ToPLaMoT
 {
@@ -47,5 +48,7 @@ namespace ToPLaMoT
 
 			return (listOfLexemes, string.Empty);
 		}
+
+		static public Task<(List<Lexeme> listOfLexemes, string lexicalAnalyzerReportMsg)> AnalyzeAsync(List<string> listOfTokens) => Task.Run(() => Analyze(listOfTokens));
 	}
 }

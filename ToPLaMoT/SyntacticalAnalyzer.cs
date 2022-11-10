@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ToPLaMoT
 {
@@ -38,10 +39,12 @@ namespace ToPLaMoT
 			return (false, string.Empty);
 		}
 
+		static public Task<(bool executionStatus, string syntacticalAnalyzerReportMsg)> AnalyzeAsync(List<Lexeme> listOfLexemes) => Task.Run(() => Analyze(listOfLexemes));
+
 		static string ConvertTokens(Lexeme lexeme)
 		{
-			if (lexeme.lexemeType.Equals(Lexeme.LexemeTypes.IDENT)) return "w";
-			if (lexeme.lexemeType.Equals(Lexeme.LexemeTypes.NUMBER)) return "n";
+			if (lexeme.lexemeType.Equals(Lexeme.LexemeTypes.IDENT)) return "variable";
+			if (lexeme.lexemeType.Equals(Lexeme.LexemeTypes.NUMBER)) return "number";
 			return lexeme.token;
 		}
 	}
