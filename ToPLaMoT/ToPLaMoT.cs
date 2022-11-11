@@ -26,12 +26,12 @@ if (executionStatus)
 
 var sourceCSCode = await Translator.AnalyzeAsync(listOfLexemes);
 
-var (exitCode, compilerReportMsg) = await Compiler.CompileAsync(sourceCSCode);
+var (compilationResult, compilerReportMsg) = await Compiler.CompileAsync(sourceCSCode);
 
-if (exitCode != 0)
+if (compilationResult)
 {
 	Log4me.Error(compilerReportMsg);
 	return;
 }
 
-await Compiler.Run();
+await Compiler.RunAsync();

@@ -13,7 +13,7 @@ namespace ToPLaMoT
 		static public string Analyze(List<Lexeme> listOfLexemes)
 		{
 			var stackOfLexemes = new Stack<Lexeme>(listOfLexemes.AsEnumerable().Reverse());
-			var sourceCSCode = new StringBuilder("using System;namespace ToPLaMoT{class Program{static void Main(){");
+			var sourceCSCode = new StringBuilder("using System;");
 
 			var state = States.S;
 
@@ -24,6 +24,7 @@ namespace ToPLaMoT
 					case States.S:
 					{
 						var tmp = stackOfLexemes.Peek();
+
 						if (tmp.token.Equals("var"))
 						{
 							state = States.VAR;
@@ -157,8 +158,6 @@ namespace ToPLaMoT
 					}
 				}
 			}
-
-			sourceCSCode.Append("}}}");
 
 			return sourceCSCode.ToString();
 		}
