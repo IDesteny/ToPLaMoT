@@ -8,10 +8,10 @@ namespace ToPLaMoT
 	{
 		static public string OutputFilename = "out";
 
-		static private readonly string ExecutableName = string.Concat(OutputFilename, ".exe");
-		static private readonly string SourceFilename = string.Concat(OutputFilename, ".cs");
+		static readonly string ExecutableName = string.Concat(OutputFilename, ".exe");
+		static readonly string SourceFilename = string.Concat(OutputFilename, ".cs");
 
-		static private readonly string CompilerPath = @"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\Roslyn\csc.exe";
+		static readonly string CompilerPath = @"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\Roslyn\csc.exe";
 
 		static public async Task<(bool executionStatus, string compilerReportMsg)> CompileAsync(string sourceCSCode)
 		{

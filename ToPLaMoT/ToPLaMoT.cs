@@ -24,9 +24,7 @@ if (executionStatus)
 	return;
 }
 
-var sourceCSCode = await Translator.AnalyzeAsync(listOfLexemes);
-
-var (compilationResult, compilerReportMsg) = await Compiler.CompileAsync(sourceCSCode);
+var (compilationResult, compilerReportMsg) = await Compiler.CompileAsync(await Translator.AnalyzeAsync(listOfLexemes));
 
 if (compilationResult)
 {
