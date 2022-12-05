@@ -17,19 +17,18 @@ namespace ToPLaMoT
 		{
 			await File.WriteAllTextAsync(SourceFilename, sourceCSCode);
 
-			var startInfo = new ProcessStartInfo
+			using var process = Process.Start(new ProcessStartInfo
 			{
 				FileName = CompilerPath,
-				Arguments = SourceFilename,
-				RedirectStandardOutput = true
-			};
+				Arguments = $"-nologo {SourceFilename}",
+				RedirectStandardOutput = true,
+			});
 
-			using var process = Process.Start(startInfo);
 			process.WaitForExit();
 
 			File.Delete(SourceFilename);
 
-			if (process.ExitCode != 0)
+			if (!process.ExitCode.Equals(0))
 			{
 				var errorMessage = await process.StandardOutput.ReadToEndAsync();
 				var trimInfo = errorMessage.Remove(0, errorMessage.LastIndexOf(":") + 2);

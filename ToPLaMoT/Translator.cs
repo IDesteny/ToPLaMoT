@@ -45,7 +45,7 @@ namespace ToPLaMoT
 
 						if (tmp.token.Equals("endf"))
 						{
-							sourceCSCode.Append("}");
+							sourceCSCode.Append('}');
 						}
 
 						if (tmp.token.Equals("read"))
