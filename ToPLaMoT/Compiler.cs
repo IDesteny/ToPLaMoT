@@ -17,13 +17,7 @@ namespace ToPLaMoT
 		{
 			await File.WriteAllTextAsync(SourceFilename, sourceCSCode);
 
-			using var process = Process.Start(new ProcessStartInfo
-			{
-				FileName = CompilerPath,
-				Arguments = $"-nologo {SourceFilename}",
-				RedirectStandardOutput = true,
-			});
-
+			using var process = Process.Start(GetProcessStartInfo());
 			process.WaitForExit();
 
 			File.Delete(SourceFilename);
@@ -34,6 +28,16 @@ namespace ToPLaMoT
 			}
 
 			return (false, string.Empty);
+		}
+
+		static ProcessStartInfo GetProcessStartInfo()
+		{
+			return new ProcessStartInfo
+			{
+				FileName = CompilerPath,
+				Arguments = SourceFilename,
+				RedirectStandardOutput = true,
+			};
 		}
 
 		static async Task<string> GetErrorMessage(Process process)
