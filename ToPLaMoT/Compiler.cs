@@ -47,13 +47,15 @@ namespace ToPLaMoT
 			return errorMessage[(errorMessage.LastIndexOf(':') + 2)..];
 		}
 
-		static public Task RunAsync()
+		static public Task<int> RunAsync()
 		{
 			return Task.Run(() =>
 			{
 				using var process = Process.Start(ExecutableName);
 
 				process.WaitForExit();
+
+				return process.ExitCode;
 			});
 		}
 	}

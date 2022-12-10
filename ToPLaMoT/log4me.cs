@@ -26,8 +26,8 @@ namespace ToPLaMoT
 			}
 		}
 
-		static public void Warning<T>(T message) => LogBasedOnLevel(Console.Out, message, DebugLevel.WARNING, ConsoleColor.Yellow);
-		static public void Error<T>(T message) => LogBasedOnLevel(Console.Error, message, DebugLevel.ERROR, ConsoleColor.Red);
-		static public void Info<T>(T message) => LogBasedOnLevel(Console.Out, message, DebugLevel.INFO, ConsoleColor.White);
+		static public void Warning<T>(T message) => LogBasedOnLevel(Console.Out, $"WARN: {message}", DebugLevel.WARNING, ConsoleColor.Yellow);
+		static public void Error<T>(T message) => LogBasedOnLevel(Console.Error, $"ERROR: {message}", DebugLevel.ERROR, ConsoleColor.Red);
+		static public void Info<T>(T message) => LogBasedOnLevel(Console.Out, $"INFO: {message}", DebugLevel.INFO, ConsoleColor.White);
 	}
 }
